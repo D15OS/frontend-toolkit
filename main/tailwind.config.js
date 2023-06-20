@@ -3,6 +3,10 @@ module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx,css}'],
   theme: {
     extend: {
+      colors: {
+        vue: '#42d392',
+        react: '#61dafb',
+      },
       spacing: {
         1: '4px',
         2: '8px',
@@ -16,4 +20,7 @@ module.exports = {
     },
   },
   plugins: [],
+  corePlugins: {
+    container: false,
+  },
 }
