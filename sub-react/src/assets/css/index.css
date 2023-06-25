@@ -1,0 +1,12 @@
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'CascadiaCode';
+  font-size: 16px;
+  margin: 0;
+}

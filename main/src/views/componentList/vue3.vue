@@ -1,9 +1,4 @@
 <template>
-  <div>123</div>
+  123
 </template>
 
-<script setup lang="ts">
-
-</script>
-
-<style scoped></style>

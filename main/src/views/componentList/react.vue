@@ -2,7 +2,9 @@
   <WujieVue
     width="100%"
     height="100%"
-    name="xxx"
+    name="test"
+    :exec="true"
+    :alive="true"
     :url="url"
   />
 </template>

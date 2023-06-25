@@ -1,4 +1,5 @@
 
 packages:
+  - 'main-react/**'
   - 'main/**'
   - 'sub-react/**'
