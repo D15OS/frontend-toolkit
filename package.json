@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pnpm run dev:main && pnpm run dev:sub-react",
+    "dev": "pnpm run dev:main && pnpm run dev:main-react",
     "dev:main": "pnpm -r run dev",
-    "dev:sub-react": "pnpm -r run dev"
+    "dev:main-react": "pnpm -r run dev"
   },
   "keywords": [],
   "author": "",

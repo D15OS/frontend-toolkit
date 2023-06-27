@@ -75,7 +75,7 @@ importers:
         specifier: ^1.6.4
         version: 1.6.4(typescript@5.0.4)
 
-  sub-react:
+  main-react:
     dependencies:
       '@codesandbox/sandpack-react':
         specifier: ^2.6.9

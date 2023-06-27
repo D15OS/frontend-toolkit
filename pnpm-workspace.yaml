@@ -2,4 +2,4 @@
 packages:
   - 'main-react/**'
   - 'main/**'
-  - 'sub-react/**'
+  - 'main-react/**'
