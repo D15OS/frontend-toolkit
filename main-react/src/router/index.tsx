@@ -5,6 +5,7 @@ import lazyLoad from './lazyLoad'
 import { lazy } from 'react'
 
 const Portal = lazy(() => import('@/views/portal/portal.tsx'))
+const Vue = lazy(() => import('@/views/componentList/vue.tsx'))
 
 const routes: RouteObject[] = [
   {
@@ -15,8 +16,18 @@ const routes: RouteObject[] = [
         element: <Navigate to='/portal' replace />,
       },
       {
-        path: 'portal',
+        path: '/portal',
         element: lazyLoad(Portal),
+        children: [
+          {
+            index: true,
+            element: <Navigate to='/portal/vue' replace />,
+          },
+          {
+            path: '/portal/vue',
+            element: lazyLoad(Vue),
+          },
+        ],
       },
     ],
   },

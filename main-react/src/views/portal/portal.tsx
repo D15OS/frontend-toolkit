@@ -1,5 +1,11 @@
+import { Link, Outlet } from 'react-router-dom'
+
 const TabItem = (props: { name: string }) => {
-  return <span>{props.name}</span>
+  const map = {
+    Vue: '/portal/vue',
+    React: '/portal/react',
+  }
+  return <Link to={map[props.name as keyof typeof map]}>{props.name}</Link>
 }
 const Portal = () => {
   return (
@@ -9,7 +15,7 @@ const Portal = () => {
         <TabItem name='React'></TabItem>
       </header>
       <main>
-        
+        <Outlet></Outlet>
       </main>
     </div>
   )
