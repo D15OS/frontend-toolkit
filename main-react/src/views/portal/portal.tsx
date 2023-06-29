@@ -1,11 +1,16 @@
 import { Link, Outlet } from 'react-router-dom'
 
-const TabItem = (props: { name: string }) => {
-  const map = {
+type Tab = 'Vue' | 'React'
+const TabItem = (props: { name: Tab }) => {
+  const TAB_MAP = {
     Vue: '/portal/vue',
     React: '/portal/react',
   }
-  return <Link to={map[props.name as keyof typeof map]}>{props.name}</Link>
+  return (
+    <Link className='m-4' to={TAB_MAP[props.name]}>
+      {props.name}
+    </Link>
+  )
 }
 const Portal = () => {
   return (
