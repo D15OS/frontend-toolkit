@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom'
-
+import style from './index.module.css'
 type Tab = 'Vue' | 'React'
 const TabItem = (props: { name: Tab }) => {
   const TAB_MAP = {
@@ -7,19 +7,19 @@ const TabItem = (props: { name: Tab }) => {
     React: '/portal/react',
   }
   return (
-    <Link className='m-4' to={TAB_MAP[props.name]}>
+    <Link className={style['tab-item'] + 'm-4 vue'} to={TAB_MAP[props.name]}>
       {props.name}
     </Link>
   )
 }
 const Portal = () => {
   return (
-    <div className='container'>
-      <header>
+    <div className={style['container']}>
+      <header className={style['header']}>
         <TabItem name='Vue'></TabItem>
         <TabItem name='React'></TabItem>
       </header>
-      <main>
+      <main className={style['main']}>
         <Outlet></Outlet>
       </main>
     </div>

@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+  font-family: 'CascadiaCode';
+  src: url(@/assets/fonts/CascadiaCodePL.woff2);
+}
+
 html,
 body,
-#app {
+#root {
   height: 100%;
   width: 100%;
 }
