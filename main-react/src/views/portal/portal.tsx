@@ -1,29 +1,42 @@
-import { Link, Outlet } from 'react-router-dom'
-import style from './index.module.css'
-type Tab = 'Vue' | 'React'
-const TabItem = (props: { name: Tab }) => {
-  const TAB_MAP = {
-    Vue: '/portal/vue',
-    React: '/portal/react',
-  }
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import style from './index.module.less';
+
+type Tab = 'Vue' | 'React';
+
+const PATH_MAP = {
+  Vue: '/portal/vue',
+  React: '/portal/react',
+};
+
+const tabItems: Tab[] = ['React', 'Vue'];
+
+const TabItem = ({ name }: { name: Tab }) => {
+  const { pathname } = useLocation();
+
+  const className = `${style['tab-item']} ${style[name]} ${
+    pathname === PATH_MAP[name] ? style.active : ''
+  }`;
+
   return (
-    <Link className={style['tab-item'] + 'm-4 vue'} to={TAB_MAP[props.name]}>
-      {props.name}
+    <Link className={className} to={PATH_MAP[name]}>
+      {name}
     </Link>
-  )
-}
+  );
+};
+
 const Portal = () => {
   return (
-    <div className={style['container']}>
-      <header className={style['header']}>
-        <TabItem name='Vue'></TabItem>
-        <TabItem name='React'></TabItem>
+    <div className={`${style.container}`}>
+      <header className={style.header}>
+        {tabItems.map((name) => (
+          <TabItem key={name} name={name} />
+        ))}
       </header>
-      <main className={style['main']}>
-        <Outlet></Outlet>
+      <main className={style.main}>
+        <Outlet />
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Portal
+export default Portal;
