@@ -1,6 +1,6 @@
-import WujieReact from 'wujie-react'
+// import WujieReact from 'wujie-react';
 
-const Vue = () => {
+function Vue() {
   return (
     <div>
       <header>123</header>

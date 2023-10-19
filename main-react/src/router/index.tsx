@@ -1,13 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import type { RouteObject } from 'react-router-dom'
-import lazyLoad from './lazyLoad'
 import { lazy } from 'react'
+import lazyLoad from './lazyLoad.tsx'
 
-const App = lazy(() => import('@/views/App'))
-const Portal = lazy(() => import('@/views/Portal/Portal'))
-const Vue = lazy(() => import('@/views/ComponentList/Vue'))
-const React = lazy(() => import('@/views/ComponentList/React'))
+const App = lazy(() => import('@/views/App.tsx'))
+const Portal = lazy(() => import('@/views/Portal/Portal.tsx'))
+const Vue = lazy(() => import('@/views/Portal/componentWrapper/Vue.tsx'))
+const React = lazy(() => import('@/views/Portal/componentWrapper/React/React.tsx'))
+const Detail = lazy(() => import('@/views/Portal/componentDetail/Detail.tsx'))
 
 const routes: RouteObject[] = [
   {
@@ -16,7 +17,7 @@ const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Navigate to='/portal' replace />,
+        element: <Navigate to="/portal" replace />,
       },
       {
         path: '/portal',
@@ -24,7 +25,7 @@ const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            element: <Navigate to='/portal/react' replace />,
+            element: <Navigate to="/portal/react" replace />,
           },
           {
             path: '/portal/vue',
@@ -33,6 +34,10 @@ const routes: RouteObject[] = [
           {
             path: '/portal/react',
             element: lazyLoad(React),
+          },
+          {
+            path: '/portal/detail',
+            element: lazyLoad(Detail),
           },
         ],
       },
