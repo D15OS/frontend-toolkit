@@ -1,4 +1,7 @@
 <template>
-  123
+  <Selector />
 </template>
 
+<script setup lang="ts">
+import Selector from '../../components/test/Selector.vue'
+</script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container h-full">
     <header>
       <RouterLink :class="{ 'active': routeName === 'components-vue3' }" class="tab-item vue" to="/vue3">Vue3</RouterLink>
       <RouterLink :class="{ 'active': routeName === 'components-react' }" class="tab-item react" to="/react">
