@@ -11,13 +11,19 @@
         {{ selectorText }}
       </div>
     </template>
-    <Pane />
+    <Pane :data="data" />
   </el-popover>
 </template>
 
 <script setup lang="ts">
 import Pane from './Pane.vue'
 import { ref } from 'vue';
+import {type CategoryData} from '../../components/test/type'
+
+// props
+defineProps<{
+  data:CategoryData
+}>()
 const selectorText = ref('999')
 
 const submit = ()=>{
