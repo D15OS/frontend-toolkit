@@ -5,11 +5,11 @@
       <div class="label">类目级别</div>
       <div class="value-wrapper">
         <div 
-          v-for="item in categories" 
-          :key="item.value" 
+          v-for="(item,index) in categories" 
+          :key="index" 
           class="value"
-          :class="{active:selectedCategory===item.value}"
-          @click="selectedCategory = item.value"
+          :class="{active:selectedCategoryIndex===index}"
+          @click="selectedCategoryIndex = index"
         >
           {{ item.label }}
         </div>
@@ -17,9 +17,9 @@
     </div>
     <!-- 一级类目 -->
     <div class="row">
-      <div class="label">一级类目</div>
+      <div class="label">{{ `${!categories[0].isSelected?'所属':''}一级类目` }}</div>
       <div class="value-wrapper">
-        <div v-show="isSelectFirstCategory" class="value" :class="{active:selectedFirstCategory===0}">
+        <div v-show="categories[0].isSelected" class="value" :class="{active:categories[0].selectedValue===0}">
           全部
         </div>
         <div 
@@ -27,10 +27,52 @@
           :key="item.value" 
           class="value"
           :class="{
-            active:selectedFirstCategory===item.value,
-            disabled:isSelectFirstCategory
+            active:categories[0].selectedValue===item.value,
+            disabled:categories[0].isSelected
           }"
-          @click="selectedFirstCategory = item.value"
+          @click="categories[0].selectedValue = item.value"
+        >
+          {{ item.label }}
+        </div>
+      </div>
+    </div>
+    <!-- 二级类目 -->
+    <div v-show="!categories[0].isSelected" class="row">
+      <div class="label">{{ `${!categories[1].isSelected?'所属':''}二级类目` }}</div>
+      <div class="value-wrapper">
+        <div v-show="categories[1].isSelected" class="value" :class="{active:categories[1].selectedValue===0}">
+          全部
+        </div>
+        <div 
+          v-for="item in data.secondCategories" 
+          :key="item.value" 
+          class="value"
+          :class="{
+            active:categories[1].selectedValue===item.value,
+            disabled:categories[1].isSelected
+          }"
+          @click="categories[1].selectedValue = item.value"
+        >
+          {{ item.label }}
+        </div>
+      </div>
+    </div>
+    <!-- 三级类目 -->
+    <div v-show="categories[2].isSelected" class="row">
+      <div class="label">{{ `${!categories[2].isSelected?'所属':''}三级类目` }}</div>
+      <div class="value-wrapper">
+        <div v-show="categories[2].isSelected" class="value" :class="{active:categories[2].selectedValue===0}">
+          全部
+        </div>
+        <div 
+          v-for="item in data.thirdCategories" 
+          :key="item.value" 
+          class="value"
+          :class="{
+            active:categories[2].selectedValue===item.value,
+            disabled:categories[2].isSelected
+          }"
+          @click="categories[2].selectedValue = item.value"
         >
           {{ item.label }}
         </div>
@@ -40,28 +82,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed, watch, defineProps } from 'vue';
 import {type CategoryData} from '../../components/test/type'
-import { computed } from 'vue';
-import { watch } from 'vue';
 // props
-defineProps<{
+const props = defineProps<{
   data:CategoryData
 }>()
 // 类目级别
-const categories = [
-  { label: '一级类目', value: 1 },
-  { label: '二级类目', value: 2 },
-  { label: '三级类目', value: 3 }
-]
-const selectedCategory = ref(1)
-watch(selectedCategory,()=>{
-  if (selectedCategory.value === 1) selectedFirstCategory.value = 0
+const categories = ref([
+  { label: '一级类目', selectedValue: 0,isSelected:true },
+  { label: '二级类目', selectedValue: 0,isSelected:false },
+  { label: '三级类目', selectedValue: 0,isSelected:false }
+])
+const selectedCategoryIndex = ref(0)
+const changeIsSelected = ()=>{
+  categories.value.forEach((item,index)=>item.isSelected = index===selectedCategoryIndex.value)
+}
+watch(selectedCategoryIndex,()=>{
+  changeIsSelected()
+  if (selectedCategoryIndex.value === 0) categories.value[0].selectedValue = 0
+  if (selectedCategoryIndex.value === 1) {
+    categories.value[0].selectedValue  = props.data.firstCategories[0].value
+    categories.value[1].selectedValue  = 0
+  }
+  if (selectedCategoryIndex.value === 2) categories.value[1].selectedValue  = props.data.secondCategories[0].value
 })
-// 一级类目
-const isSelectFirstCategory = computed(()=>selectedCategory.value===1)
-const selectedFirstCategory = ref(0)
-
 </script>
 
 <style lang="less" scoped>
@@ -73,10 +118,11 @@ const selectedFirstCategory = ref(0)
   display: flex;
   gap: 16px;
   .label {
-    @apply p-1;
+    @apply p-1 w-24 text-right shrink-0;
   }
   .value-wrapper {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     .value{
       @apply p-1 cursor-pointer;
