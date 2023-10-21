@@ -3,8 +3,13 @@ export interface CategoryData {
     secondCategories: Category[]
     thirdCategories: Category[]
 }
-interface Category {
+export interface Category {
     label: string
     value: number
 }
 
+export interface CategoryValue {
+    label: string
+    selectedValue: number
+    isSelected: Boolean
+}

@@ -16,74 +16,35 @@
       </div>
     </div>
     <!-- 一级类目 -->
-    <div class="row">
-      <div class="label">{{ `${!categories[0].isSelected?'所属':''}一级类目` }}</div>
-      <div class="value-wrapper">
-        <div v-show="categories[0].isSelected" class="value" :class="{active:categories[0].selectedValue===0}">
-          全部
-        </div>
-        <div 
-          v-for="item in data.firstCategories" 
-          :key="item.value" 
-          class="value"
-          :class="{
-            active:categories[0].selectedValue===item.value,
-            disabled:categories[0].isSelected
-          }"
-          @click="categories[0].selectedValue = item.value"
-        >
-          {{ item.label }}
-        </div>
-      </div>
-    </div>
+    <Category 
+      :category="categories[0]" 
+      :category-items=" data.firstCategories"
+      label="一级类目" 
+      @change-selected-value="value=>categories[0].selectedValue = value"
+    />
     <!-- 二级类目 -->
-    <div v-show="!categories[0].isSelected" class="row">
-      <div class="label">{{ `${!categories[1].isSelected?'所属':''}二级类目` }}</div>
-      <div class="value-wrapper">
-        <div v-show="categories[1].isSelected" class="value" :class="{active:categories[1].selectedValue===0}">
-          全部
-        </div>
-        <div 
-          v-for="item in data.secondCategories" 
-          :key="item.value" 
-          class="value"
-          :class="{
-            active:categories[1].selectedValue===item.value,
-            disabled:categories[1].isSelected
-          }"
-          @click="categories[1].selectedValue = item.value"
-        >
-          {{ item.label }}
-        </div>
-      </div>
-    </div>
+    <Category 
+      v-show="!categories[0].isSelected"
+      :category="categories[1]" 
+      :category-items=" data.secondCategories"
+      label="二级类目" 
+      @change-selected-value="value=>categories[1].selectedValue = value"
+    />
     <!-- 三级类目 -->
-    <div v-show="categories[2].isSelected" class="row">
-      <div class="label">{{ `${!categories[2].isSelected?'所属':''}三级类目` }}</div>
-      <div class="value-wrapper">
-        <div v-show="categories[2].isSelected" class="value" :class="{active:categories[2].selectedValue===0}">
-          全部
-        </div>
-        <div 
-          v-for="item in data.thirdCategories" 
-          :key="item.value" 
-          class="value"
-          :class="{
-            active:categories[2].selectedValue===item.value,
-            disabled:categories[2].isSelected
-          }"
-          @click="categories[2].selectedValue = item.value"
-        >
-          {{ item.label }}
-        </div>
-      </div>
-    </div>
+    <Category 
+      v-show="categories[2].isSelected"
+      :category="categories[2]" 
+      :category-items=" data.thirdCategories"
+      label="三级类目" 
+      @change-selected-value="value=>categories[2].selectedValue = value"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, defineProps } from 'vue';
+import { ref, watch, defineProps } from 'vue';
 import {type CategoryData} from '../../components/test/type'
+import Category from './Category.vue'
 // props
 const props = defineProps<{
   data:CategoryData
@@ -95,18 +56,21 @@ const categories = ref([
   { label: '三级类目', selectedValue: 0,isSelected:false }
 ])
 const selectedCategoryIndex = ref(0)
+watch(selectedCategoryIndex,()=>{
+  changeIsSelected()
+  resetEachCategories()
+})
 const changeIsSelected = ()=>{
   categories.value.forEach((item,index)=>item.isSelected = index===selectedCategoryIndex.value)
 }
-watch(selectedCategoryIndex,()=>{
-  changeIsSelected()
+const resetEachCategories = ()=>{
   if (selectedCategoryIndex.value === 0) categories.value[0].selectedValue = 0
   if (selectedCategoryIndex.value === 1) {
     categories.value[0].selectedValue  = props.data.firstCategories[0].value
     categories.value[1].selectedValue  = 0
   }
   if (selectedCategoryIndex.value === 2) categories.value[1].selectedValue  = props.data.secondCategories[0].value
-})
+}
 </script>
 
 <style lang="less" scoped>
