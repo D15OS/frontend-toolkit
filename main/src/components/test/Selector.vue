@@ -3,15 +3,16 @@
     trigger="click"
     :show-arrow="false"
     :teleported="false"
-    :width="400"
+    placement="bottom-start"
+    :width="540"
     @hide="submit"
   >
     <template #reference>
       <div class="selector-container">
-        {{ selectorText }}
+        {{ selectorText || '一级类目' }}
       </div>
     </template>
-    <Pane :data="data" />
+    <Pane ref="pane" :data="data" />
   </el-popover>
 </template>
 
@@ -19,12 +20,15 @@
 import Pane from './Pane.vue'
 import { ref } from 'vue';
 import {type CategoryData} from '../../components/test/type'
+import { computed } from 'vue';
 
 // props
 defineProps<{
   data:CategoryData
 }>()
-const selectorText = ref('999')
+
+const pane = ref<InstanceType<typeof Pane> | null>(null)
+const selectorText = computed(()=>pane.value?.selectedBelongCategory)
 
 const submit = ()=>{
   console.log('submit');
@@ -35,6 +39,6 @@ const submit = ()=>{
 .selector-container {
   padding: 2px;
   border: 1px solid black;
-  width: 400px;
+  width: 240px;
 }
 </style>
