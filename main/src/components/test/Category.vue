@@ -2,36 +2,36 @@
   <div class="row">
     <div class="label">{{ prefix }}{{ label }}</div>
     <div class="value-wrapper">
-      <div v-show="category.isSelected" class="value" :class="{active: category.selectedValue === 0}">
+      <div v-show="categoryLevel.isSelected" class="value" :class="{ active: categoryLevel.selectedCode === '0' }">
         全部
       </div>
-      <div 
-        v-for="item in categoryItems" 
-        :key="item.value" 
+      <div
+        v-for="item in categoryItems"
+        :key="item.category_code"
         class="value"
         :class="{
-          active: category.selectedValue === item.value,
-          disabled: category.isSelected
+          active: categoryLevel.selectedCode === item.category_code,
+          disabled: categoryLevel.isSelected,
         }"
-        @click="emit('changeSelectedValue', item.value)"
+        @click="emit('changeSelectedValue', item.category_code)"
       >
-        {{ item.label }}
+        {{ item.name }}
       </div>
     </div>
   </div>
 </template>
-  
-<script setup lang="ts">
-import { computed } from 'vue';
-import {type CategoryValue,type Category} from '../../components/test/type'
 
-const emit = defineEmits(['changeSelectedValue']);
+<script setup lang="ts">
+import { computed } from 'vue'
+import { type CategoryLevel, type Category } from '../../components/test/type'
+
+const emit = defineEmits(['changeSelectedValue'])
 const props = defineProps<{
-    category: CategoryValue,
-    categoryItems: Category[],
-    label: String,
+  categoryLevel: CategoryLevel
+  categoryItems: Category[]
+  label: String
 }>()
-const prefix = computed(()=>!props.category.isSelected ? '所属' : '')
+const prefix = computed(() => (!props.categoryLevel.isSelected ? '所属' : ''))
 </script>
 
 <style lang="less">
@@ -39,18 +39,23 @@ const prefix = computed(()=>!props.category.isSelected ? '所属' : '')
   @apply mb-2;
   display: flex;
   gap: 16px;
+
   .label {
     @apply p-1 w-24 text-right shrink-0;
   }
+
   .value-wrapper {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    .value{
+
+    .value {
       @apply p-1 cursor-pointer;
+
       &.active {
         @apply bg-red-400 text-white;
       }
+
       &.disabled {
         @apply text-gray-300 pointer-events-none;
       }
@@ -58,4 +63,3 @@ const prefix = computed(()=>!props.category.isSelected ? '所属' : '')
   }
 }
 </style>
-  
